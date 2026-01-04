@@ -1,0 +1,15 @@
+# InsightBot Configuration
+
+collector:
+  arxiv_categories:
+    - "cs.AI"
+    - "cs.LG"
+    - "cs.CL"
+  rss_feeds:
+    - "https://openai.com/blog/rss.xml"
+    - "https://blogs.nvidia.com/feed/"
+    - "https://aws.amazon.com/blogs/machine-learning/feed/"
+
+processing:
+  relevance_threshold: 0.7
+  summary_model: "gpt-4o-mini"
