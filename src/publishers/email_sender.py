@@ -2,6 +2,7 @@ import os
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+from email.header import Header
 from jinja2 import Environment, FileSystemLoader
 from datetime import datetime
 from typing import List
@@ -11,9 +12,9 @@ class EmailSender:
     def __init__(self, template_dir: str = "templates"):
         self.smtp_server = os.getenv("SMTP_SERVER", "smtp.gmail.com")
         self.smtp_port = int(os.getenv("SMTP_PORT", "587"))
-        self.smtp_user = os.getenv("SMTP_USER")
-        self.smtp_password = os.getenv("SMTP_PASSWORD")
-        self.recipient_email = os.getenv("RECIPIENT_EMAIL") # Can be a comma-separated string
+        self.smtp_user = os.getenv("SMTP_USER", "").strip()
+        self.smtp_password = os.getenv("SMTP_PASSWORD", "").replace("\xa0", "").replace(" ", "").strip()
+        self.recipient_email = os.getenv("RECIPIENT_EMAIL", "").strip() # Can be a comma-separated string
         
         self.env = Environment(loader=FileSystemLoader(template_dir))
 
@@ -31,8 +32,8 @@ class EmailSender:
         msg = MIMEMultipart()
         msg["From"] = self.smtp_user
         msg["To"] = self.recipient_email
-        msg["Subject"] = f"🧠 InsightBot Daily Briefing - {datetime.now().strftime('%Y-%m-%d')}"
-        msg.attach(MIMEText(html_content, "html"))
+        msg["Subject"] = Header(f"🧠 InsightBot Daily Briefing - {datetime.now().strftime('%Y-%m-%d')}", 'utf-8')
+        msg.attach(MIMEText(html_content, "html", "utf-8"))
 
         try:
             with smtplib.SMTP(self.smtp_server, self.smtp_port) as server:
@@ -43,3 +44,4 @@ class EmailSender:
             print(f"📧 Email sent to {self.recipient_email}")
         except Exception as e:
             print(f"❌ Failed to send email: {e}")
+            raise e

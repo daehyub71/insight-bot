@@ -10,6 +10,7 @@ class ArxivCollector(BaseCollector):
     def __init__(self, config_path: str = "config/settings.yaml"):
         self.config = self._load_config(config_path)
         self.categories = self.config.get("collector", {}).get("arxiv_categories", ["cs.AI", "cs.LG", "cs.CL"])
+        self.lookback_days = self.config.get("collector", {}).get("arxiv_lookback_days", 3)  # 기본 3일
 
     def _load_config(self, path: str) -> dict:
         try:
@@ -35,7 +36,7 @@ class ArxivCollector(BaseCollector):
             sort_order=arxiv.SortOrder.Descending
         )
         
-        cutoff_date = datetime.now(datetime.now().astimezone().tzinfo) - timedelta(days=1)
+        cutoff_date = datetime.now(datetime.now().astimezone().tzinfo) - timedelta(days=self.lookback_days)
 
         for result in client.results(search):
             published_date = result.published
