@@ -11,6 +11,7 @@ class RSSCollector(BaseCollector):
     def __init__(self, config_path: str = "config/settings.yaml"):
         self.config = self._load_config(config_path)
         self.feed_urls = self.config.get("collector", {}).get("rss_feeds", [])
+        self.lookback_days = self.config.get("collector", {}).get("rss_lookback_days", 3)  # 기본 3일
 
     def _load_config(self, path: str) -> dict:
         try:
@@ -21,7 +22,7 @@ class RSSCollector(BaseCollector):
 
     def fetch_data(self) -> List[Article]:
         articles = []
-        cutoff_date = datetime.now().astimezone() - timedelta(days=1)
+        cutoff_date = datetime.now().astimezone() - timedelta(days=self.lookback_days)
 
         for url in self.feed_urls:
             feed = feedparser.parse(url)
