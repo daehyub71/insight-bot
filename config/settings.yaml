@@ -6,6 +6,7 @@ collector:
     - "cs.LG"
     - "cs.CL"
   arxiv_lookback_days: 3    # ArXiv는 주말에 발행 안 함 → 3일로 설정
+  arxiv_max_results: 10     # 최신 논문 10개만 수집
   rss_lookback_days: 3      # RSS 피드도 동일하게 3일
   rss_feeds:
     - "https://openai.com/blog/rss.xml"

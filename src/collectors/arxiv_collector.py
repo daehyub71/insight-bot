@@ -28,10 +28,12 @@ class ArxivCollector(BaseCollector):
         # Construct query for multiple categories
         query = " OR ".join([f"cat:{cat}" for cat in self.categories])
         
+        max_results = self.config.get("collector", {}).get("arxiv_max_results", 10)
+
         client = arxiv.Client()
         search = arxiv.Search(
             query=query,
-            max_results=100,
+            max_results=max_results,
             sort_by=arxiv.SortCriterion.SubmittedDate,
             sort_order=arxiv.SortOrder.Descending
         )
