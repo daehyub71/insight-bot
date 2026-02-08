@@ -12,6 +12,10 @@ collector:
     - "https://openai.com/blog/rss.xml"
     - "https://blogs.nvidia.com/feed/"
     - "https://aws.amazon.com/blogs/machine-learning/feed/"
+    - "https://blog.google/technology/ai/rss/"
+    - "https://huggingface.co/blog/feed.xml"
+    - "https://deepmind.google/blog/rss.xml"
+    - "https://www.technologyreview.com/feed/"
 
 processing:
   relevance_threshold: 0.7
