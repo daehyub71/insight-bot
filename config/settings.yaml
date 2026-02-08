@@ -7,6 +7,12 @@ collector:
     - "cs.CL"
   arxiv_lookback_days: 3    # ArXiv는 주말에 발행 안 함 → 3일로 설정
   arxiv_max_results: 10     # 최신 논문 10개만 수집
+  anthropic_lookback_days: 3  # Anthropic 뉴스 수집 기간
+  anthropic_max_results: 10   # Anthropic 뉴스 최대 수집 개수
+  anthropic_pages:            # 수집할 Anthropic 페이지 목록
+    - "/news"
+    - "/research"
+    - "/economic-futures"
   rss_lookback_days: 3      # RSS 피드도 동일하게 3일
   rss_feeds:
     - "https://openai.com/blog/rss.xml"

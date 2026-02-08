@@ -2,6 +2,7 @@ from langgraph.graph import StateGraph, END
 from src.state import AgentState, Article
 from src.collectors.arxiv_collector import ArxivCollector
 from src.collectors.rss_crawler import RSSCollector
+from src.collectors.anthropic_news_collector import AnthropicNewsCollector
 from src.processors.filters import RelevanceFilter
 from src.processors.summarizer import Summarizer
 from src.processors.insight_generator import InsightGenerator
@@ -13,6 +14,7 @@ class InsightBotGraph:
     def __init__(self):
         self.arxiv_collector = ArxivCollector()
         self.rss_collector = RSSCollector()
+        self.anthropic_collector = AnthropicNewsCollector()
         self.filter = RelevanceFilter()
         self.summarizer = Summarizer()
         self.insight_generator = InsightGenerator()
@@ -23,7 +25,8 @@ class InsightBotGraph:
         print("--- [Node] Fetching Data ---")
         arxiv_data = self.arxiv_collector.fetch_data()
         rss_data = self.rss_collector.fetch_data()
-        all_articles = arxiv_data + rss_data
+        anthropic_data = self.anthropic_collector.fetch_data()
+        all_articles = arxiv_data + rss_data + anthropic_data
         print(f"Fetched {len(all_articles)} articles.")
         return {"articles": all_articles}
 
